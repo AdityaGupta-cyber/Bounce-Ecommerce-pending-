@@ -1,6 +1,7 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import Logo from "@/public/logo.png";
 import { DashboardLinks } from '../components/DashboardLinks';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -10,9 +11,10 @@ import { ThemeToggle } from '../components/ThemeToggle';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { auth, signOut } from '../lib/auth';
 import { requireUser } from '../lib/hooks';
+import { useRouter } from 'next/router';
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
-    const session = await requireUser();
+    const session = await auth()
 
     return (
         <>
@@ -64,7 +66,7 @@ const DashboardLayout = async ({ children }: { children: ReactNode }) => {
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="secondary" size="icon" className="rounded-full">
-                                        <img src={session?.user?.Image as string} alt="Profile" width={20} height={20} className="w-full h-full rounded-full" />
+                                        <Image src={session?.user?.image as string} alt="Profile" width={20} height={20} className="w-full h-full rounded-full" />
                                         <span className="sr-only">Toggle user menu</span>
                                     </Button>
                                 </DropdownMenuTrigger>
